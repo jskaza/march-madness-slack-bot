@@ -47,7 +47,7 @@ try:
             teams = sorted([(game["home"]["team"], game["home"]["score"], game["home"]["probability"]),
                             (game["away"]["team"], game["away"]["score"], game["away"]["probability"])],
                             key = lambda x: x[1])
-            text = (f"CLOSE GAME: {teams[1][0]}: {teams[1][1]} - {teams[0][0]}: {teams[0][1]}\n"
+            text = (f"CLOSE GAME: {teams[1][0]} {teams[1][1]} - {teams[0][0]} {teams[0][1]}\n"
                     f'{game["status"]["display_clock"]} remaining\n'
                     f"{teams[1][0]} has a {100*round(teams[1][2], 3)}% chance of winning"
                     )
@@ -63,7 +63,7 @@ try:
             continue
         else:
             teams = sorted([(game["home"]["team"], game["home"]["score"]),(game["away"]["team"], game["away"]["score"])], key = lambda x: x[1])
-            text = f"FINAL: {teams[1][0]}: {teams[1][1]} - {teams[0][0]}: {teams[0][1]}"
+            text = f"FINAL: {teams[1][0]} {teams[1][1]} - {teams[0][0]} {teams[0][1]}"
             response = requests.post(
                 webhook_url,
                 data = json.dumps({"text":text}),
