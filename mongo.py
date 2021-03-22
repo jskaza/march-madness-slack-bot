@@ -35,6 +35,13 @@ def make_notif_document(game: dict, type: str, message: str) -> dict():
     entry["message"] = message
     return(entry)
 
+def make_error_document(error: str) -> dict():
+    entry = {}
+    entry["time"] = time.time()
+    entry["error"] = error
+    return(entry)
+
+
 
 def close_games(games: pymongo.collection.Collection, pt_diff: int, time_remaining: float) -> list:
     return list(games.find(

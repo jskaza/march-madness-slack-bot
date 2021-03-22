@@ -6,19 +6,20 @@ import time
 import os
 from mongo import *
 
+# pymongo configuration
+client = MongoClient(os.environ.get("MONGO_STRING"))
+db = client.march_madness_2021
+games = db.games
+notifs = db.notifications
+errors = db.errors
+
+# slack webhook url
+webhook_url = os.environ.get("SLACK_WEBHOOK")
+
+# espn api
+URL = "http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard"
+
 try:
-    # pymongo configuration
-    client = MongoClient(os.environ.get("MONGO_STRING"))
-    db = client.march_madness_2021
-    games = db.games
-    notifs = db.notifications
-
-    # slack webhook url
-    webhook_url = os.environ.get("SLACK_WEBHOOK")
-
-    # espn api
-    URL = "http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard"
-
     # dict_keys(['leagues', 'groups', 'events', 'eventsDate'])
     scores = requests.get(URL).json()
 
@@ -71,5 +72,4 @@ try:
             )
             notifs.insert_one(make_notif_document(game, "Final", text))
 except Exception as e:
-    print(repr(e))
-    # could also set up another mongo collection to log errors
+    errors.insert_one(make_error_document(repr(e)))
