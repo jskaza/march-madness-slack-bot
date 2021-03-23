@@ -50,11 +50,7 @@ try:
                             key = lambda x: x[1])
             text = (f"CLOSE GAME: {teams[1][0]} {teams[1][1]} - {teams[0][0]} {teams[0][1]}\n"
                     f'{game["status"]["display_clock"]} remaining\n'
-<<<<<<< HEAD
                     f"{teams[1][0]} has a {round(100*teams[1][2], 1)}% chance of winning"
-=======
-                    f"{teams[1][0]} has a {round(100*teams[1][2], 3)}% chance of winning"
->>>>>>> 7df5a7ae721f9f7c57374630f2f1f5acbcc28c0d
                     )
             response = requests.post(
                 webhook_url,
