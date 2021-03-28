@@ -27,7 +27,7 @@ def make_game_document(game:list) -> dict:
     entry["difference"] = abs(entry["home"]["score"] - entry["away"]["score"])
     return(entry)
 
-def make_notif_document(game: dict, type: str, message: str) -> dict():
+def make_notif_document(game: dict, type: str, message: str) -> dict:
     entry = {}
     entry["game"] = game["_id"]
     entry["time_sent"] = time.time()
@@ -35,7 +35,7 @@ def make_notif_document(game: dict, type: str, message: str) -> dict():
     entry["message"] = message
     return(entry)
 
-def make_error_document(error: str) -> dict():
+def make_error_document(error: str) -> dict:
     entry = {}
     entry["time"] = time.time()
     entry["error"] = error
