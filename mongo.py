@@ -41,8 +41,6 @@ def make_error_document(error: str) -> dict:
     entry["error"] = error
     return(entry)
 
-
-
 def close_games(games: pymongo.collection.Collection, pt_diff: int, time_remaining: float) -> list:
     return list(games.find(
         # constraints
@@ -54,6 +52,7 @@ def close_games(games: pymongo.collection.Collection, pt_diff: int, time_remaini
          "home.probability": 1, "away.probability": 1, "status.display_clock": 1}
         )
                 )
+                
 def completed_games(games: pymongo.collection.Collection) -> list:
      return list(games.find(
          # constraints

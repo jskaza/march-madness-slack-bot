@@ -5,10 +5,18 @@ import json
 import time
 import os
 from mongo import *
+from urllib.parse import quote_plus
 
 # pymongo configuration
-client = MongoClient(os.environ.get("MONGO_STRING"))
-db = client.march_madness_2021
+username = quote_plus(os.environ.get("MONGO_USERNAME"))
+password = quote_plus(os.environ.get("MONGO_PASSWORD"))
+cluster = os.environ.get("MONGO_CLUSTER")
+db = "march_madness_2022"
+uri = ("mongodb+srv://" + username + ":" + password + '@' + cluster + ".mongodb.net/" +
+db + "?retryWrites=true&w=majority")
+
+client =  MongoClient(uri)
+db = client.march_madness_2022
 games = db.games
 notifs = db.notifications
 errors = db.errors
@@ -37,7 +45,7 @@ try:
                                    upsert = True)
 
     # extract close games
-    close_games = close_games(games, 10, 10*60)
+    close_games = close_games(games, 10, 5*60)
     # extract completed games
     completed_games = completed_games(games)
 
