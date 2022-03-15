@@ -45,7 +45,7 @@ try:
                                    upsert = True)
 
     # extract close games
-    close_games = close_games(games, 10, 5*60)
+    close_games = close_games(games, 6, 5*60)
     # extract completed games
     completed_games = completed_games(games)
 
