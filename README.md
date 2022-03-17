@@ -2,6 +2,7 @@
 
 ## Description
 - Send messages to a Slack Channel for close games and final scores from the NCAAM tournament
+- Data pulled from ESPN API: http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard
 - Run as a `cron` job every 10 minutes
 - Environment variables:
     - `SLACK_WEBHOOK`: Slack weebhook URL
