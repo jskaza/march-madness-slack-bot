@@ -1,5 +1,6 @@
 from helpers import check_scores
 from urllib.parse import quote_plus
+import os
 
 def execute_check_scores(event, context):
     username = quote_plus(os.environ.get("MONGO_USERNAME"))
