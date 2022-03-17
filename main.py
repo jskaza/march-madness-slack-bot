@@ -1,4 +1,4 @@
-from helpers import check_scores, mongo
+from helpers import check_scores
 
 def execute_check_scores(event, context):
     username = quote_plus(os.environ.get("MONGO_USERNAME"))
