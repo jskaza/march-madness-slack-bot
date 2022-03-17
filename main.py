@@ -65,9 +65,9 @@ def completed_games(games) -> list:
         res.append(d)
     return(res)
 
-def check_scores(creds, games_collection, notifs_collection, errors_collection, webhook_url):
+def check_scores(games_collection, notifs_collection, errors_collection, webhook_url):
     # try:
-    firebase_admin.initialize_app(creds)
+    # firebase_admin.initialize_app(creds)
     db = firestore.client()
     games = db.collection(games_collection)
     notifs = db.collection(notifs_collection)
@@ -131,7 +131,7 @@ def check_scores(creds, games_collection, notifs_collection, errors_collection, 
 
 
 
-creds = credentials.Certificate("service_account_key.json")
+# creds = credentials.Certificate("service_account_key.json")
 
 def execute_check_scores(event, context):
-    check_scores(creds, "games", "notifs", "errors", os.environ.get("SLACK_WEBHOOK"))
+    check_scores("games", "notifs", "errors", os.environ.get("SLACK_WEBHOOK"))
