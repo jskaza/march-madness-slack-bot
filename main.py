@@ -66,8 +66,7 @@ def completed_games(games) -> list:
     return(res)
 
 def check_scores(games_collection, notifs_collection, errors_collection, webhook_url):
-    # try:
-    # firebase_admin.initialize_app(creds)
+    firebase_admin.initialize_app()
     db = firestore.client()
     games = db.collection(games_collection)
     notifs = db.collection(notifs_collection)
