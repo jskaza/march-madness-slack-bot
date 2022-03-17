@@ -4,7 +4,6 @@ import requests
 import json
 import time
 import os
-from urllib.parse import quote_plus
 
 def make_game_document(game:list) -> dict:
     entry = {}
