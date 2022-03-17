@@ -1,4 +1,4 @@
-from helpers import check_scores
+from helpers.check_scores import check_scores
 from urllib.parse import quote_plus
 import os
 
