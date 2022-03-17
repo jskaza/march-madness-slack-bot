@@ -4,7 +4,7 @@
 - Send messages to a Slack Channel for close games and final scores from the NCAAM tournament
 - Run as a `cron` job every 10 minutes
 - Environment variables:
-    - `SLACK_WEBHOOK`: Slack weebook URL
+    - `SLACK_WEBHOOK`: Slack weebhook URL
 
 ## Architecture
 - App code connected to Google Cloud using Cloud Source Repository
