@@ -1,10 +1,15 @@
 # march-madness-slack-bot
 
-- Slack Bot to send notifictions for close games and final scores from the NCAAM tournament
-- Run as a cron job
+## Description
+- Send messages to a Slack Channel for close games and final scores from the NCAAM tournament
+- Run as a `cron` job every 10 minutes
 - Environment variables:
-    - `MONGO_USERNAME`
-    - `MONGO_STRING`
-    - `MONGO_CLUSTER`
-    - `MONGO_DB`
-    - `SLACK_WEBHOOK`
+    - `SLACK_WEBHOOK`: Slack weebook URL
+
+## Architecture
+- App code connected to Google Cloud using Cloud Source Repository
+- `execute_check_scores` in `main.py` hosted as a Google Cloud Function
+    - Scores, Notifications, Errors stored in a Google Firestore Database
+- Function executions scheduled using Google Cloud Scheduler
+    - `*/10 * * * *`
+
