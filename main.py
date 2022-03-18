@@ -16,6 +16,8 @@ def make_game_document(game:list) -> dict:
     entry["status"]["display_clock"] = game["competitions"][0]["status"]["displayClock"]
     entry["status"]["in_progress"] = game["competitions"][0]["status"]["type"]["state"] == "in"
     entry["status"]["state"] = game["competitions"][0]["status"]["type"]["shortDetail"]
+    if "Final" in  entry["status"]["state"]:
+         entry["status"]["state"] = "Final"
     entry["date"] = game["competitions"][0]["date"]
     entry["matchup"] = game["name"]
     entry["short_name"] = game["shortName"]
@@ -57,7 +59,7 @@ def close_games(games, pt_diff: int) -> list:
     return(res)
        
 def completed_games(games) -> list:
-    docs = games.where("status.state", "==", "Final").stream()
+    docs = games.where("status.state", "in", ["Final", "Final/OT"]).stream()
     res = []
     for doc in docs:
         d = doc.to_dict()
