@@ -114,7 +114,7 @@ def check_scores(games_collection, notifs_collection, errors_collection, webhook
                 teams = sorted([(game["home"]["team"], game["home"]["score"], game["home"]["probability"]),
                                 (game["away"]["team"], game["away"]["score"], game["away"]["probability"])],
                                 key = lambda x: x[1])
-                text = f"{game["away"]["team"]} & {game["home"]["team"]} have tipped off!"}
+                text = f"{game['away']['team']} & {game['home']['team']} have tipped off!"
                 response = requests.post(
                     webhook_url,
                     data = json.dumps({"text":text}),
