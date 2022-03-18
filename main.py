@@ -49,6 +49,15 @@ def make_error_document(error: str) -> dict:
     entry["error"] = error
     return(entry)
 
+def new_games(games) -> list:
+    docs = games.where("status.period", "==", 1).stream()
+    res = []
+    for doc in docs:
+        d = doc.to_dict()
+        d["_id"]= doc.id
+        res.append(d)
+    return(res)
+
 def close_games(games, pt_diff: int) -> list:
     docs = games.where("status.in_progress", "==", True).where("status.period", "==", 2).where("difference", "<", pt_diff).stream()
     res = []
@@ -91,13 +100,30 @@ def check_scores(games_collection, notifs_collection, errors_collection, webhook
             matchup = doc["matchup"]
             games.document(f"{date}_{matchup}").set(doc)
 
+        # extract new games
+        new_games_list = new_games(games)
         # extract close games
         close_games_list = close_games(games, 6)
         # extract completed games
         completed_games_list = completed_games(games)
 
+        for game in new_games_list:
+            if len(notifs.where("game", "==", game["_id"]).where("type", "==", "New Game").get()) > 0:
+                continue
+            else:
+                teams = sorted([(game["home"]["team"], game["home"]["score"], game["home"]["probability"]),
+                                (game["away"]["team"], game["away"]["score"], game["away"]["probability"])],
+                                key = lambda x: x[1])
+                text = f"{game["away"]["team"]} & {game["home"]["team"]} have tipped off!"}
+                response = requests.post(
+                    webhook_url,
+                    data = json.dumps({"text":text}),
+                    headers = {"Content-Type": "application/json"}
+                )
+                notifs.document().set(make_notif_document(game, "New Game", text))
+
         for game in close_games_list:
-            if len(notifs.where("game", "==", game["_id"]).get()) > 0:
+            if len(notifs.where("game", "==", game["_id"]).where("type", "==", "Close Game").get()) > 0:
                 continue
             else:
                 teams = sorted([(game["home"]["team"], game["home"]["score"], game["home"]["probability"]),
@@ -128,8 +154,6 @@ def check_scores(games_collection, notifs_collection, errors_collection, webhook
                 notifs.document().set(make_notif_document(game, "Final", text))
     except Exception as e:
         errors.document().set(make_error_document(repr(e)))
-
-
 
 # creds = credentials.Certificate("service_account_key.json")
 firebase_admin.initialize_app()
